@@ -38,8 +38,7 @@ def preprocess_data(token):
 
 
 def load_twitter_rnn(preprocess):
-    # dataset = list(open("./input/twitter/training_set_05.tsv"))
-    dataset = list(open("./input/twitter/training_set_100.tsv"))
+    dataset = list(open("./input/twitter/training_set_05.tsv"))
     #dataset.extend(list(open("./input/alan-ritter.txt")))
     #dataset.extend(list(open("./input/mark-dredze-train.txt")))
     #dataset.extend(list(open("./input/mark-dredze-test.txt")))
@@ -74,7 +73,7 @@ def load_twitter_rnn(preprocess):
             continue
         
         #Preprocessor
-        if preprocess_data(curr_token):
+        if preprocess and preprocess_data(curr_token):
             continue
 
         # put the token in vocab, convert it into its idx in vocab
