@@ -152,7 +152,7 @@ def train(args):
 
             # save the model
             if current_step % args.save_every == 0:
-                path = saver.save(sess, checkpoint_prefix, global_step=current_step)
+                path = saver.save(sess, checkpoint_prefix, global_step=tf.constant(current_step))
                 print "Saved model checkpoint to {}\n".format(path)
 
 
