@@ -60,7 +60,7 @@ def main():
 def train(args):
     # load data
     print("Loading data ...")
-    [x, y, vocab, vocab_inv, num_classes] = data_helpers.load_twitter_rnn()
+    [x, y, vocab, vocab_inv, num_classes] = data_helpers.load_twitter_rnn(True)
 
     # shuffle and split data
     np.random.seed(10)
@@ -152,7 +152,7 @@ def train(args):
 
             # save the model
             if current_step % args.save_every == 0:
-                path = saver.save(sess, checkpoint_prefix, global_step=current_step)
+                path = saver.save(sess, checkpoint_prefix, global_step=tf.constant(current_step))
                 print "Saved model checkpoint to {}\n".format(path)
 
 

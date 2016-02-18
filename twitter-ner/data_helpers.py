@@ -2,6 +2,7 @@ import numpy as np
 import itertools
 from collections import Counter
 import sys
+import re
 
 # TODO
 # handle @
@@ -26,13 +27,21 @@ def convert_code_to_vec(code):
         print 'Wrong label: ' + code
         return -1
 
+#Preprocess data. Return true if data should be added to vocab, false otherwise
+def preprocess_data(token):
+    #Preprocess #1: Ignore URL tokens
+    if re.search("(?P<url>https?://[^\s]+)",token) is None:
+        return False
+    #Preprocess #2: TODO Include nonsense word preprocessing
+    return True
+    
 
-def load_twitter_rnn():
-    # dataset = list(open("./input/twitter/training_set_05.tsv"))
-    dataset = list(open("./input/twitter/training_set_100.tsv"))
-    dataset.extend(list(open("./input/alan-ritter.txt")))
-    dataset.extend(list(open("./input/mark-dredze-train.txt")))
-    dataset.extend(list(open("./input/mark-dredze-test.txt")))
+
+def load_twitter_rnn(preprocess):
+    dataset = list(open("./input/twitter/training_set_05.tsv"))
+    #dataset.extend(list(open("./input/alan-ritter.txt")))
+    #dataset.extend(list(open("./input/mark-dredze-train.txt")))
+    #dataset.extend(list(open("./input/mark-dredze-test.txt")))
 
     tokenized_tweets = []
     labels = []
@@ -61,6 +70,10 @@ def load_twitter_rnn():
         # code = token label
         curr_code = convert_code_to_vec(line.split('\t')[1].upper())
         if curr_code == -1:
+            continue
+        
+        #Preprocessor
+        if preprocess and preprocess_data(curr_token):
             continue
 
         # put the token in vocab, convert it into its idx in vocab
